@@ -32,12 +32,20 @@ const insert = (obj) => {
   });
 }
 
-const find = () => {
+const find = (cb) => {
   TableList.find({}, (err, result) => {
-    return result;
+    console.log(result);
+    cb(err, result);
   });
 }
 
+const deleteAll = () => {
+  TableList.deleteMany({}, (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+};
 
 const toDoList = mongoose.model('toDoList', schema);
 

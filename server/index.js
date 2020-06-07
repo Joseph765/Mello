@@ -9,3 +9,17 @@ app.use('/', express.static('dist'))
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`)
 });
+
+app.use('/tables/get', (req, res) => {
+  db.find((err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    };
+  });
+});
+
+app.use('/tables/post', (req, res) => {
+
+});

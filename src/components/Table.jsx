@@ -9,8 +9,13 @@ class Table extends React.Component {
     this.state = {
       number: this.props.number,
       name: this.props.name,
+      items: this.props.items,
       listItemName: '',
     }
+  }
+
+  componentDidMount() {
+
   }
 
   createItem() {
@@ -24,10 +29,21 @@ class Table extends React.Component {
   }
 
   render() {
+
+    let items;
+
+    if (this.props.items.length > 0) {
+      items = this.props.items.map(item => {
+        return (
+          <li>{item}</li>
+        );
+      });
+    }
+
     return (
       <div className={`table${this.state.number}`}>
         <h2>{this.state.name}</h2>
-        <ul className={`list${this.state.number}`}></ul>
+        <ul className={`list${this.state.number}`}>{items}</ul>
         <label>Enter in list item</label>
         <input type="text" id="listItemInput" onChange={(e) => this.updateListItemName(e)}></input>
         <button onClick={() => this.createItem()}>Create new item</button>
