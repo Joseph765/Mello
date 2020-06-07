@@ -34,18 +34,9 @@ const insert = (obj) => {
 
 const find = () => {
   TableList.find({}, (err, result) => {
-    console.log(result);
     return result;
   });
 }
-
-find();
-
-insert({
-  id: 1,
-  tableName: "GroceryShopping",
-  tableItems: ["apples", "oranges", "pickles"]
-});
 
 
 const toDoList = mongoose.model('toDoList', schema);
