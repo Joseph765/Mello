@@ -11,14 +11,14 @@ db.once('open', function() {
 db.on('error', console.error.bind(console, 'connection error:'));
 
 const schema = new mongoose.Schema({
-  id: Number,
+  id: {type: Number , unique: true, required: true, dropDups: true},
   tableName: String,
   tableItems: [String],
 });
 
 const TableList = mongoose.model('TableList', schema);
 
-const insert = (obj) => {
+const insert = (obj, cb) => {
   const newTable = new TableList({
     id: obj.id,
     tableName: obj.tableName,
@@ -27,7 +27,9 @@ const insert = (obj) => {
 
   newTable.save((err) => {
     if (err) {
-      console.log(err);
+      cb(err);
+    } else {
+      cb(null);
     }
   });
 }
@@ -39,6 +41,24 @@ const find = (cb) => {
   });
 }
 
+const insertItem = (obj, cb) => {
+  TableList.find({id: obj.id}, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      var arr = result[0].tableItems;
+      if (arr.includes(obj.item)) {
+        cb('Item Already Exists');
+      } else {
+        arr.push(obj.item);
+        TableList.updateOne({id: obj.id}, {tableItems: arr}, (err, result) => {
+          cb(err);
+        });
+      }
+    }
+  });
+}
+
 const deleteAll = () => {
   TableList.deleteMany({}, (err) => {
     if (err) {
@@ -47,6 +67,27 @@ const deleteAll = () => {
   });
 };
 
+const deleteListItem = (obj, cb) => {
+  TableList.find({id: obj.id}, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      var arr = result[0].tableItems;
+      var index = arr.indexOf(obj.item);
+      arr.splice(index, 1);
+      TableList.updateOne({id: obj.id}, {tableItems: arr}, (err, result) => {
+        cb(err);
+      });
+    }
+  });
+}
+
+const deleteList = (obj, cb) => {
+  TableList.deleteOne({id: obj.id}, (err) => {
+    cb(err);
+  });
+}
+
 const toDoList = mongoose.model('toDoList', schema);
 
-module.exports = {find, insert};
+module.exports = {find, insert, insertItem, deleteListItem, deleteList};

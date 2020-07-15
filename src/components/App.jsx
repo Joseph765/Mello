@@ -15,23 +15,17 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    //get all info from database
     $.ajax({
       context: this,
       method: 'GET',
       url: '/tables/get',
       success: function(result) {
-        //update tabl info in state
-        this.updateTables(0, result);
+        this.updateTables(result.length, result);
       },
       error: function(err) {
         console.log(err);
       }
     })
-    //if tables is greater than 0,
-      //loop through tables
-      //each iteration create a new div (id=tableDiv${number})
-      //use reactDOM.render and pass in props, including items from database
   }
 
   updateTables(num, arr) {
@@ -52,7 +46,7 @@ class App extends React.Component {
           number={i}
           items={arr[i - 1].tableItems}
         />,
-        document.getElementById(`tableDiv${number}`)
+        document.getElementById(`tableDiv${i}`)
       );
     }
   }
@@ -71,10 +65,7 @@ class App extends React.Component {
     });
     $('#tables').append(`<div id=tableDiv${number}></div>`);
     ReactDOM.render(<Table name={name} number={number} items={[]}/>, document.getElementById(`tableDiv${number}`));
-  }
-
-  createItem() {
-    $('.tables ul').append('<li>sample</li>');
+    this.forceUpdate();
   }
 
   render() {
@@ -84,9 +75,7 @@ class App extends React.Component {
         <label>Input List Name: </label>
         <input type="text" onChange={(e) => this.updateName(e)}></input>
         <button onClick={() => this.createList()}>Create new list</button>
-        <div id="tables">
-
-        </div>
+        <div id="tables"></div>
       </div>
     );
   }
