@@ -32,7 +32,7 @@ app.post('/tables/post', (req, res) => {
       res.send(err);
     } else {
       db.find(() => {});
-      res.send(200)
+      res.sendStatus(200)
     }
   });
 });
@@ -44,7 +44,7 @@ app.post('/item/post', (req, res) => {
       res.send(err);
     } else {
       db.find(() => {});
-      res.send(200);
+      res.sendStatus(200);
     }
   })
 });
@@ -55,7 +55,7 @@ app.delete('/item/delete', (req, res) => {
     if (err) {
       res.send(err);
     } else {
-      res.send(200);
+      res.sendStatus(200);
     }
   })
 });
@@ -66,7 +66,7 @@ app.delete('/list/delete', (req, res) => {
     if (err) {
       res.send(err);
     } else {
-      res.send(200);
+      res.sendStatus(200);
     }
   })
 });

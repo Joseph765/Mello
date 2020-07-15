@@ -33,6 +33,7 @@ class ListItem extends React.Component {
   }
 
   deleteItem() {
+    $(`.${this.props.name}`).remove();
     var obj = {
       id: this.props.id,
       item: this.props.name
@@ -43,7 +44,7 @@ class ListItem extends React.Component {
       url: '/item/delete',
       data: obj,
       success: function(result) {
-        console.log('successfully posted item');
+        console.log(result);
       },
       error: function(err) {
         console.log(err)

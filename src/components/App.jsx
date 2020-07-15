@@ -65,7 +65,6 @@ class App extends React.Component {
     });
     $('#tables').append(`<div id=tableDiv${number}></div>`);
     ReactDOM.render(<Table name={name} number={number} items={[]}/>, document.getElementById(`tableDiv${number}`));
-    this.forceUpdate();
   }
 
   render() {

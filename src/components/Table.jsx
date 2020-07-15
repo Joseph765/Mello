@@ -51,6 +51,7 @@ class Table extends React.Component {
   }
 
   deleteTable() {
+    $(`.table${this.state.number}`).remove();
     var obj = {
       id: this.state.number
     }
